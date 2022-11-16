@@ -32,10 +32,29 @@ header {
     color: white;
     font-weight: bold;
 }
+.contador {
+    background-color: red;
+    border-radius: 50%;
+    padding: 1px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
 
 ul {
     list-style: none;
 }
+.absolute {
+    position: absolute;
+}
+.relative {
+    position: relative;
+    bottom: 5.3rem;
+    left: 1.7rem;
+}
+
 #hero {
     background-image:url(../img/hero.jpg);
     height: 350px;

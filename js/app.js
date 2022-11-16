@@ -5,6 +5,8 @@ const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
 const cantidadArticulos = document.createElement('p');
 
+contador = document.querySelector('#contador')
+
 
 cargarEventListeners();
 function cargarEventListeners(){
@@ -13,18 +15,37 @@ function cargarEventListeners(){
     vaciarCarritoBtn.addEventListener('click', () => {
         articulosCarrito = [];
         limpiarHTML();
+        contador.remove()    
     })
 }
 
 function agregarCurso(e) {
     e.preventDefault();
     if(e.target.classList.contains('agregar-carrito')) {
+        contadorMasProd();
         const cursoSeleccionado = e.target.parentElement.parentElement;
         leerDatosCurso(cursoSeleccionado);
     }
 }
+function contadorMasProd() {
+    varios = contador.textContent;
+    contador.textContent = ++varios;
+    if(varios === 1) {
+        contador.classList.add('contador');    
+    }    
+}
+
+function contadorMenosProd() {
+    varios = contador.textContent;
+    contador.textContent = --varios;
+    if(varios === 0) {
+        contador.remove()    
+    }    
+}
+
 function eliminarCurso(e){
     if(e.target.classList.contains('borrar-curso')) {
+        contadorMenosProd();
         const cursoId = e.target.getAttribute('data-id');
         const cursos = articulosCarrito.map( curso => {
             if(cursoId === curso.id) {
@@ -36,12 +57,13 @@ function eliminarCurso(e){
                     articulosCarrito = articulosCarrito.filter( curso => curso.id !== cursoId);
                     carritoHTML();
                 }
-            
+                
             }
         })
         
     }
 }
+
 
 function leerDatosCurso(curso){  
     // creamos un objeto 
