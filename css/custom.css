@@ -15,7 +15,7 @@ h4 {
     font-weight: 700;
 }
 header {
-    padding: 20px 0 0 0;
+    padding: 20px 0;
     background: white;
     text-align: center;
 }
@@ -34,13 +34,14 @@ header {
 }
 .contador {
     background-color: red;
-    border-radius: 50%;
+    border-radius: 100%;
     padding: 1px;
     text-decoration: none;
     text-align: center;
     color: white;
     font-weight: bold;
     font-size: 1.5rem;
+    max-width: 3rem;
 }
 
 ul {
@@ -48,12 +49,39 @@ ul {
 }
 .absolute {
     position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
 }
+
 .relative {
     position: relative;
     bottom: 5.3rem;
-    left: 1.7rem;
+    left: 17rem;
 }
+
+@media (min-width: 450px ) {
+    .relative {
+        position: relative;
+        bottom: 5.3rem;
+        left: 20.6rem;
+    }
+} 
+@media (min-width: 550px ) {
+    .relative {
+        position: relative;
+        bottom: 5.3rem;
+        left: 3.6rem;
+    }
+} 
+@media (min-width: 748px ) {
+    .relative {
+        position: relative;
+        bottom: 5.3rem;
+        left: 2.3rem;
+    }
+} 
 
 #hero {
     background-image:url(../img/hero.jpg);
@@ -198,4 +226,23 @@ ul {
 display: block;
 margin-bottom: 10px;
 text-decoration: none;
+}
+
+@media (min-width: 600px) {
+    .grid3 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+@media (min-width: 992px) {
+    .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+.margin-top {
+    margin-top: 1.4rem;
 }
