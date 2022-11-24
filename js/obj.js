@@ -6,6 +6,16 @@ class Course {
         this.id = id;
         this.categoria = categoria;
     }
+    inHTML() {
+        const imagenCurso = document.querySelector('#imagen-curso');
+        const tituloCurso = document.querySelector('#titulo-curso');
+        const profesorCurso = document.querySelector('#profesor-curso');
+        const idCurso = document.querySelector('#id-curso');
+        imagenCurso.setAttribute('src', this.imagen);
+        imagenCurso.textContent = this.imagen;
+        imagenCurso.textContent = this.imagen;
+        imagenCurso.setAttribute('data-id', this.id);
+    }
 }
 
 const course1 = new Course('HTML5, CSS3, JavaScript para Principiantes', "img/curso1.jpg", 'Michelle Rodríguez', 1, 'Tecnología');
@@ -24,8 +34,8 @@ const course12 = new Course('100 Recetas de Comida Natural', "img/curso2.jpg", '
 const myCourses = [];
 
 myCourses.push( course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12);
-
-
+// const losCursos = [ course1, course1.inHTML]
+// console.log(losCursos)
 
 
 

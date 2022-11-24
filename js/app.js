@@ -17,6 +17,11 @@ cargarEventListeners();
 function cargarEventListeners() {
     listaCursos.addEventListener('click', agregarCurso);
     carrito.addEventListener('click', eliminarCurso);
+    // //muestra los cursos de localStorage
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     articulosCarrito = JSON.parse( localStorage.getItem('carrito')) || [];
+    //     carritoHTML;
+    // })
     vaciarCarritoBtn.addEventListener('click', () => {
         articulosCarrito = [];
         limpiarHTML();
@@ -136,8 +141,14 @@ function carritoHTML(){
 
         `;
         carritoDeCompras.appendChild(row);
-    })
-};
+    });
+    // agregar el carrito de Compras al LocalStorage
+    // sincronizarStorage();
+
+    // function sincronizarStorage() {
+    //     localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
+    // }
+}
 
 
 function limpiarHTML() {
@@ -151,6 +162,9 @@ function limpiarHTML() {
 
 
 // generar buscador//
+
+
+
 const buscador = document.querySelector('#buscador');
 
 
@@ -165,7 +179,7 @@ document.addEventListener("DOMContentLoaded", cargarCategorias)
 // funcion para Cargar categorias al campo <select>
 function cargarCategorias() {
 
-    for(opcion of categorias) {
+    for(let opcion of categorias) {
         const option = document.createElement('option')
         option.text = opcion;
         option.value = opcion;
@@ -179,7 +193,53 @@ const datosBusqueda = {
 
 buscador.addEventListener('change', e =>{
     datosBusqueda.categoria = e.target.value
-    filtrarDatos(); /////////////////////////////////////////////////
-    console.log(datosBusqueda)
+    filtrarDatos(); 
+    mostrarCurso(e)  
 })
+
+
+function filtrarDatos() {
+    const resultado = myCourses.filter(filtrarCategoria);
+    console.log(resultado)
+}
+
+function filtrarCategoria(curso) {
+    const {categoria} = datosBusqueda
+    if(categoria) {
+        return curso.categoria === categoria;    
+    }
+        return curso;
+}
+
+function mostrarCurso(e) {
+    const cursosEspecificos = document.querySelector('#curso-por-categoria');
+    cursosEspecificos.innerHTML = `
+    <h2 class="centrar-texto">${e.target.value}</h2>
+    <div id="aqui" class="grid3"></div>
+    `
+    const lugar = document.querySelector('#aqui');
+    //agrega curso generado x seleccion de categoria
+    lugar.addEventListener('click', agregarCurso);
+    for(curso of myCourses) {
+        if(curso.categoria === datosBusqueda.categoria) {
+            const resultado = myCourses.filter(filtrarCategoria);
+            
+            agregarCursoEspecifico();
+            function agregarCursoEspecifico(){
+                lugar.innerHTML = `
+                    <div class="card">
+                        <img id="imagen-curso" src=${curso.imagen} class="imagen-curso u-full-width">
+                        <div class="info-card">
+                            <h4 id="titulo-curso">${curso.titulo}</h4>
+                            <p id="profesor-curso">${curso.profesor}</p>
+                            <img src="img/estrellas.png">
+                            <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
+                            <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${curso.id} >Agregar Al Carrito</a>
+                        </div>
+                    </div> <!--.card-->
+                     ` 
+            }
+        }
+    }
+}
 
