@@ -17,11 +17,15 @@ cargarEventListeners();
 function cargarEventListeners() {
     listaCursos.addEventListener('click', agregarCurso);
     carrito.addEventListener('click', eliminarCurso);
+    
+    
     // //muestra los cursos de localStorage
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     articulosCarrito = JSON.parse( localStorage.getItem('carrito')) || [];
-    //     carritoHTML;
-    // })
+    document.addEventListener('DOMContentLoaded', () => {
+        articulosCarrito = JSON.parse( localStorage.getItem('carrito')) || [];
+        carritoHTML();
+        contadorMasProd();
+    })
+   
     vaciarCarritoBtn.addEventListener('click', () => {
         articulosCarrito = [];
         limpiarHTML();
@@ -142,12 +146,12 @@ function carritoHTML(){
         `;
         carritoDeCompras.appendChild(row);
     });
+   
     // agregar el carrito de Compras al LocalStorage
-    // sincronizarStorage();
-
-    // function sincronizarStorage() {
-    //     localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
-    // }
+    sincronizarStorage();
+}
+function sincronizarStorage() {
+    localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
 }
 
 
@@ -211,6 +215,8 @@ function filtrarCategoria(curso) {
         return curso;
 }
 
+let parser = new DOMParser();
+
 function mostrarCurso(e) {
     const cursosEspecificos = document.querySelector('#curso-por-categoria');
     cursosEspecificos.innerHTML = `
@@ -219,14 +225,15 @@ function mostrarCurso(e) {
     `
     const lugar = document.querySelector('#aqui');
     //agrega curso generado x seleccion de categoria
-    lugar.addEventListener('click', agregarCurso);
+    lugar.addEventListener('click', agregarCursoEspecifico);
+    lugar.innerHTML = ``;
     for(curso of myCourses) {
         if(curso.categoria === datosBusqueda.categoria) {
             const resultado = myCourses.filter(filtrarCategoria);
             
             agregarCursoEspecifico();
-            function agregarCursoEspecifico(){
-                lugar.innerHTML = `
+            function agregarCursoEspecifico(){                
+                let newCard = `
                     <div class="card">
                         <img id="imagen-curso" src=${curso.imagen} class="imagen-curso u-full-width">
                         <div class="info-card">
@@ -237,7 +244,11 @@ function mostrarCurso(e) {
                             <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${curso.id} >Agregar Al Carrito</a>
                         </div>
                     </div> <!--.card-->
-                     ` 
+                     `;
+                
+                let htmlCard = parser.parseFromString(newCard, 'text/html');
+                console.log(htmlCard);
+                lugar.appendChild(htmlCard.body.firstChild);
             }
         }
     }
