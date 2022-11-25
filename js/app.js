@@ -1,5 +1,3 @@
-
-
 const carrito = document.querySelector('#carrito');
 const carritoDeCompras = document.querySelector('#lista-carrito tbody');
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
@@ -9,7 +7,7 @@ const cantidadArticulos = document.createElement('p');
 
 //      variables del numero flotante
 const absoluto = document.querySelector('.absolute');
-contador = document.createElement('p');
+const contador = document.createElement('p');
 
 
 //  EVENTOS
@@ -23,54 +21,70 @@ function cargarEventListeners() {
     document.addEventListener('DOMContentLoaded', () => {
         articulosCarrito = JSON.parse( localStorage.getItem('carrito')) || [];
         carritoHTML();
-        contadorMasProd();
-    })
-   
-    vaciarCarritoBtn.addEventListener('click', () => {
-        articulosCarrito = [];
-        limpiarHTML();
-        contador.textContent = "";
-        contador.remove();
+        actualizarProd();
     })
 }
 
+////// JAvascript de numero flotante   ///////
+function actualizarProd() {
+    const array = [];
+    let total = 0;
+    articulosCarrito.forEach(curso => {
+        array.push(curso.cantidad);
+    })
+    for( let i = 0; i < array.length; i++) {
+        total += array[i];
+    }
+   
+    contador.classList.add('contador');
+    contador.classList.add('relative');
+    absoluto.appendChild(contador);
+    contador.textContent = total;
+    if(total === 0) {
+    contador.remove()
+    }
+}
+
+// function contadorMasProd() {
+//     if(absoluto.appendChild(contador)) {
+//             crearContador()
+//         }
+//         varios = contador.textContent;
+//         contador.textContent = ++varios;
+//         if(varios === 1) {
+//                 contador.classList.add('contador');
+//             }
+//         }
+//         function crearContador(){
+//             contador.classList.add('relative');
+//             absoluto.appendChild(contador);
+//         }
+//         function contadorMenosProd() {
+//             varios = contador.textContent;
+//             contador.textContent = --varios;
+//         if(varios === 0) {
+//             contador.remove()
+//         }
+//         console.log(varios)
+//     }
+    ////////////////////////////////////////////////////
+
+
+vaciarCarritoBtn.addEventListener('click', () => {
+    articulosCarrito = [];
+    limpiarHTML();
+    actualizarProd();
+    sincronizarStorage();
+})
 function agregarCurso(e) {
     e.preventDefault();
     if(e.target.classList.contains('agregar-carrito')) {
-        contadorMasProd();
         const cursoSeleccionado = e.target.parentElement.parentElement;
         leerDatosCurso(cursoSeleccionado);
+        actualizarProd();
     }
 }
 
-
-////// JAvascript de numero flotante   ///////
-
-function contadorMasProd() {
-        if(absoluto.appendChild(contador)) {
-                crearContador()
-            }
-            varios = contador.textContent;
-            contador.textContent = ++varios;
-            if(varios === 1) {
-                    contador.classList.add('contador');
-                }
-
-            }
-
-            function crearContador(){
-                    contador.classList.add('relative');
-                    absoluto.appendChild(contador);
-                }
-
-                function contadorMenosProd() {
-                        varios = contador.textContent;
-                        contador.textContent = --varios;
-    if(varios === 0) {
-            contador.remove()
-        }
-    }
-    ////////////////////////////////////////////////////
 
 function eliminarCurso(e){
     if(e.target.classList.contains('borrar-curso')) {
@@ -79,12 +93,12 @@ function eliminarCurso(e){
             if(cursoId === curso.id) {
                 if(curso.cantidad > 1) {
                     curso.cantidad--;
-                    contadorMenosProd();
+                    actualizarProd();
                     carritoHTML();
                 }else {
                     articulosCarrito = articulosCarrito.filter( curso => curso.id !== cursoId);
                     carritoHTML();
-                    contadorMenosProd();
+                    actualizarProd();
                 }
 
             }
@@ -92,7 +106,6 @@ function eliminarCurso(e){
 
     }
 }
-
 
 function leerDatosCurso(curso){
     // creamos un objeto
@@ -153,8 +166,6 @@ function carritoHTML(){
 function sincronizarStorage() {
     localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
 }
-
-
 function limpiarHTML() {
     while(carritoDeCompras.firstChild) {
         carritoDeCompras.removeChild(carritoDeCompras.firstChild)
