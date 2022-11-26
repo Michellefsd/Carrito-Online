@@ -4,6 +4,7 @@ const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
 const cantidadArticulos = document.createElement('p');
+const seccion = document.querySelector('#curso-por-categoria');
 
 //      variables del numero flotante
 const absoluto = document.querySelector('.absolute');
@@ -14,6 +15,7 @@ const contador = document.createElement('p');
 cargarEventListeners();
 function cargarEventListeners() {
     listaCursos.addEventListener('click', agregarCurso);
+    seccion.addEventListener('click', agregarCurso);
     carrito.addEventListener('click', eliminarCurso);
     
     
@@ -76,6 +78,8 @@ vaciarCarritoBtn.addEventListener('click', () => {
     actualizarProd();
     sincronizarStorage();
 })
+
+
 function agregarCurso(e) {
     e.preventDefault();
     if(e.target.classList.contains('agregar-carrito')) {
@@ -206,7 +210,7 @@ const datosBusqueda = {
     categoria: ''
 }
 
-buscador.addEventListener('change', e =>{
+buscador.addEventListener('change', e => {
     datosBusqueda.categoria = e.target.value
     filtrarDatos(); 
     mostrarCurso(e)  
