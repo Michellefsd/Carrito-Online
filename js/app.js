@@ -3,7 +3,6 @@ const carritoDeCompras = document.querySelector('#lista-carrito tbody');
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
-const cantidadArticulos = document.createElement('p');
 const seccion = document.querySelector('#curso-por-categoria');
 
 //      variables del numero flotante
@@ -34,43 +33,17 @@ function actualizarProd() {
     articulosCarrito.forEach(curso => {
         array.push(curso.cantidad);
     })
-    for( let i = 0; i < array.length; i++) {
-        total += array[i];
+    for( let i of array) {
+        total += i;
     }
    
-    contador.classList.add('contador');
-    contador.classList.add('relative');
+    contador.classList.add('contador', 'relative');
     absoluto.appendChild(contador);
     contador.textContent = total;
     if(total === 0) {
     contador.remove()
     }
 }
-
-// function contadorMasProd() {
-//     if(absoluto.appendChild(contador)) {
-//             crearContador()
-//         }
-//         varios = contador.textContent;
-//         contador.textContent = ++varios;
-//         if(varios === 1) {
-//                 contador.classList.add('contador');
-//             }
-//         }
-//         function crearContador(){
-//             contador.classList.add('relative');
-//             absoluto.appendChild(contador);
-//         }
-//         function contadorMenosProd() {
-//             varios = contador.textContent;
-//             contador.textContent = --varios;
-//         if(varios === 0) {
-//             contador.remove()
-//         }
-//         console.log(varios)
-//     }
-    ////////////////////////////////////////////////////
-
 
 vaciarCarritoBtn.addEventListener('click', () => {
     articulosCarrito = [];
@@ -96,7 +69,7 @@ function eliminarCurso(e){
         const cursos = articulosCarrito.map( curso => {
             if(cursoId === curso.id) {
                 if(curso.cantidad > 1) {
-                    curso.cantidad--;
+                    curso.cantidad--;  
                     actualizarProd();
                     carritoHTML();
                 }else {
@@ -116,7 +89,7 @@ function leerDatosCurso(curso){
     const infoCurso = {
         imagen: curso.querySelector('img').src,
         titulo: curso.querySelector('h4').textContent,
-        precio: curso.querySelector('.precio span').textContent,
+        // precio: curso.querySelector('.precio span').textContent,
         id: curso.querySelector('a').getAttribute('data-id'),
         cantidad: 1
     }
@@ -215,11 +188,10 @@ buscador.addEventListener('change', e => {
     filtrarDatos(); 
     mostrarCurso(e)  
 })
-
+// buscador.selectedIndex = "1";
 
 function filtrarDatos() {
     const resultado = myCourses.filter(filtrarCategoria);
-    console.log(resultado)
 }
 
 function filtrarCategoria(curso) {
