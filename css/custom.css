@@ -123,9 +123,10 @@ ul {
     color: white;
 }
 .contenido-hero {
-    margin-top: 80px;
+    margin-top: 70px;
     color: white;
 }
+
 .contenido-hero form {
     position: relative;
     margin-bottom: 0;
@@ -137,7 +138,7 @@ ul {
 .contenido-hero form .submit-buscador {
     position: absolute;
     right:0;
-    top:0;
+    top: 0;
     height: 100%;
     padding: 0;
     display: block;
@@ -148,7 +149,6 @@ ul {
     background-repeat: no-repeat;
     border:none;
 }
-
 
 .barra {
     padding: 20px 0;

@@ -241,3 +241,19 @@ function mostrarCurso(e) {
     }
 }
 
+// buscador textual
+
+const buscadorTextual = document.querySelector('#submit-buscador');
+const botonBuscador = document.querySelector('.submit-buscador');
+
+botonBuscador.addEventListener('click', buscarCurso);
+
+function buscarCurso() {
+    const requirement = buscadorTextual.value.toLowerCase();
+    for(let curso of myCourses) {
+        const titulo = curso.titulo.toLowerCase();
+        if(titulo.includes(requirement)){
+            console.log(titulo)
+        }
+    }
+    }

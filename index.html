@@ -58,10 +58,13 @@
                                     <p>Todos los cursos a $400</p>
                                     <form action="#" id="busqueda" method="GET" class="formulario">
                                         <label for="buscador">Categorías</label>
-                                        <select class="u-full-width" id="buscador">
-                                            <option value="" disabled>--Seleccione--</option>
+                                        <select class="" id="buscador">
+                                            <option value="" selected disabled>- - Seleccione - -</option>
                                         </select>
-                                        <input type="button" id="submit-buscador" class="margin-top submit-buscador">
+                                        <div class="absolute">
+                                        <input type="submit"  class="submit-buscador">
+                                        <input type="text" id="submit-buscador" placeholder="Busca un Curso"class="u-full-width margin-top">
+                                        </div>
                                     </form>
                             </div>
                         </div>
