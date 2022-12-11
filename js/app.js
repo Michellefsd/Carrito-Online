@@ -1,71 +1,92 @@
-
-
 const carrito = document.querySelector('#carrito');
 const carritoDeCompras = document.querySelector('#lista-carrito tbody');
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
-const cantidadArticulos = document.createElement('p');
+const seccion = document.querySelector('#curso-por-categoria');
 
 //      variables del numero flotante
 const absoluto = document.querySelector('.absolute');
-contador = document.createElement('p');
+const contador = document.createElement('p');
 
 
 //  EVENTOS
 cargarEventListeners();
 function cargarEventListeners() {
     listaCursos.addEventListener('click', agregarCurso);
+    seccion.addEventListener('click', agregarCurso);
     carrito.addEventListener('click', eliminarCurso);
+    
+    
     // //muestra los cursos de localStorage
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     articulosCarrito = JSON.parse( localStorage.getItem('carrito')) || [];
-    //     carritoHTML;
-    // })
-    vaciarCarritoBtn.addEventListener('click', () => {
-        articulosCarrito = [];
-        limpiarHTML();
-        contador.textContent = "";
-        contador.remove();
+    document.addEventListener('DOMContentLoaded', () => {
+        articulosCarrito = JSON.parse( localStorage.getItem('carrito')) || [];
+        carritoHTML();
+        actualizarProd();
     })
 }
+
+////// JAvascript de numero flotante   ///////
+function actualizarProd() {
+    const array = [];
+    let total = 0;
+    articulosCarrito.forEach(curso => {
+        array.push(curso.cantidad);
+    })
+    for( let i of array) {
+        total += i;
+    }
+   
+    contador.classList.add('contador', 'relative');
+    absoluto.appendChild(contador);
+    contador.textContent = total;
+    if(total === 0) {
+    contador.remove()
+    }
+}
+
+vaciarCarritoBtn.addEventListener('click', () => {
+    articulosCarrito = [];
+    limpiarHTML();
+    actualizarProd();
+    sincronizarStorage();
+})
+
 
 function agregarCurso(e) {
     e.preventDefault();
     if(e.target.classList.contains('agregar-carrito')) {
-        contadorMasProd();
         const cursoSeleccionado = e.target.parentElement.parentElement;
         leerDatosCurso(cursoSeleccionado);
+        actualizarProd();
     }
 }
 
 
-////// JAvascript de numero flotante   ///////
+// ////// JAvascript de numero flotante   ///////
 
-function contadorMasProd() {
-        if(absoluto.appendChild(contador)) {
-                crearContador()
-            }
-            varios = contador.textContent;
-            contador.textContent = ++varios;
-            if(varios === 1) {
-                    contador.classList.add('contador');
-                }
+// function contadorMasProd() {
+//     if(absoluto.appendChild(contador)) {
+//         crearContador()
+//     }
+//     varios = contador.textContent;
+//     contador.textContent = ++varios;
+//     if(varios === 1) {
+//         contador.classList.add('contador');
+//         }
+//     }
+//     function crearContador(){
+//             contador.classList.add('relative');
+//             absoluto.appendChild(contador);
+//         }
 
-            }
-
-            function crearContador(){
-                    contador.classList.add('relative');
-                    absoluto.appendChild(contador);
-                }
-
-                function contadorMenosProd() {
-                        varios = contador.textContent;
-                        contador.textContent = --varios;
-    if(varios === 0) {
-            contador.remove()
-        }
-    }
+//                 function contadorMenosProd() {
+//                         varios = contador.textContent;
+//                         contador.textContent = --varios;
+//     if(varios === 0) {
+//             contador.remove()
+//         }
+//     }
    
 
 function eliminarCurso(e){
@@ -74,13 +95,13 @@ function eliminarCurso(e){
         const cursos = articulosCarrito.map( curso => {
             if(cursoId === curso.id) {
                 if(curso.cantidad > 1) {
-                    curso.cantidad--;
-                    contadorMenosProd();
+                    curso.cantidad--;  
+                    actualizarProd();
                     carritoHTML();
                 }else {
                     articulosCarrito = articulosCarrito.filter( curso => curso.id !== cursoId);
                     carritoHTML();
-                    contadorMenosProd();
+                    actualizarProd();
                 }
 
             }
@@ -89,13 +110,12 @@ function eliminarCurso(e){
     }
 }
 
-
 function leerDatosCurso(curso){
     // creamos un objeto
     const infoCurso = {
         imagen: curso.querySelector('img').src,
         titulo: curso.querySelector('h4').textContent,
-        precio: curso.querySelector('.precio span').textContent,
+        // precio: curso.querySelector('.precio span').textContent,
         id: curso.querySelector('a').getAttribute('data-id'),
         cantidad: 1
     }
@@ -142,15 +162,13 @@ function carritoHTML(){
         `;
         carritoDeCompras.appendChild(row);
     });
+   
     // agregar el carrito de Compras al LocalStorage
-    // sincronizarStorage();
-
-    // function sincronizarStorage() {
-    //     localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
-    // }
+    sincronizarStorage();
 }
-
-
+function sincronizarStorage() {
+    localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
+}
 function limpiarHTML() {
     while(carritoDeCompras.firstChild) {
         carritoDeCompras.removeChild(carritoDeCompras.firstChild)
@@ -191,16 +209,15 @@ const datosBusqueda = {
     categoria: ''
 }
 
-buscador.addEventListener('change', e =>{
+buscador.addEventListener('change', e => {
     datosBusqueda.categoria = e.target.value
     filtrarDatos(); 
     mostrarCurso(e)  
 })
-
+// buscador.selectedIndex = "1";
 
 function filtrarDatos() {
     const resultado = myCourses.filter(filtrarCategoria);
-    console.log(resultado)
 }
 
 function filtrarCategoria(curso) {
@@ -211,6 +228,8 @@ function filtrarCategoria(curso) {
         return curso;
 }
 
+let parser = new DOMParser();
+
 function mostrarCurso(e) {
     const cursosEspecificos = document.querySelector('#curso-por-categoria');
     cursosEspecificos.innerHTML = `
@@ -219,14 +238,15 @@ function mostrarCurso(e) {
     `
     const lugar = document.querySelector('#aqui');
     //agrega curso generado x seleccion de categoria
-    lugar.addEventListener('click', agregarCurso);
+    lugar.addEventListener('click', agregarCursoEspecifico);
+    lugar.innerHTML = ``;
     for(curso of myCourses) {
         if(curso.categoria === datosBusqueda.categoria) {
             const resultado = myCourses.filter(filtrarCategoria);
             
             agregarCursoEspecifico();
-            function agregarCursoEspecifico(){
-                lugar.innerHTML = `
+            function agregarCursoEspecifico(){                
+                let newCard = `
                     <div class="card">
                         <img id="imagen-curso" src=${curso.imagen} class="imagen-curso u-full-width">
                         <div class="info-card">
@@ -237,9 +257,29 @@ function mostrarCurso(e) {
                             <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${curso.id} >Agregar Al Carrito</a>
                         </div>
                     </div> <!--.card-->
-                     ` 
+                     `;
+                
+                let htmlCard = parser.parseFromString(newCard, 'text/html');
+                console.log(htmlCard);
+                lugar.appendChild(htmlCard.body.firstChild);
             }
         }
     }
 }
 
+// buscador textual
+
+const buscadorTextual = document.querySelector('#submit-buscador');
+const botonBuscador = document.querySelector('.submit-buscador');
+
+botonBuscador.addEventListener('click', buscarCurso);
+
+function buscarCurso() {
+    const requirement = buscadorTextual.value.toLowerCase();
+    for(let curso of myCourses) {
+        const titulo = curso.titulo.toLowerCase();
+        if(titulo.includes(requirement)){
+            console.log(titulo)
+        }
+    }
+    }

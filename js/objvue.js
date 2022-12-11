@@ -1,7 +1,7 @@
-const miApp = new Vue({
+
+var miApp = new Vue({
     el:"#apo",
     data: {
-        saludo: "hola",
         misCursos : [
             {
                 titulo: "HTML5, CSS3, JavaScript para Principiantes",

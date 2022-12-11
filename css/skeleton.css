@@ -205,7 +205,7 @@ button.button-primary,
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
-  color: #FFF;
+  color: rgb(24, 20, 20);
   background-color: #33C3F0;
   border-color: #33C3F0; }
 .button.button-primary:hover,
@@ -218,7 +218,7 @@ button.button-primary:focus,
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
-  color: #FFF;
+  color: rgb(58, 43, 43);
   background-color: #1EAEDB;
   border-color: #1EAEDB; }
 
@@ -234,8 +234,9 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
+  color:black;
   height: 38px;
-  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  padding: 2px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: #fff;
   border: 1px solid #D1D1D1;
   border-radius: 4px;
