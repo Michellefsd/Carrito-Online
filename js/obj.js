@@ -34,8 +34,8 @@ const course12 = new Course('100 Recetas de Comida Natural', "img/curso2.jpg", '
 const myCourses = [];
 
 myCourses.push( course1, course2, course3, course4, course5, course6, course7, course8, course9, course10, course11, course12);
-// const losCursos = [ course1, course1.inHTML]
-// console.log(losCursos)
+
+
 
 
 

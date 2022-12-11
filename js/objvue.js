@@ -1,5 +1,4 @@
-
-var miApp = new Vue({
+const miApp = new Vue({
     el:"#apo",
     data: {
         saludo: "hola",

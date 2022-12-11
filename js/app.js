@@ -66,7 +66,7 @@ function contadorMasProd() {
             contador.remove()
         }
     }
-    ////////////////////////////////////////////////////
+   
 
 function eliminarCurso(e){
     if(e.target.classList.contains('borrar-curso')) {
