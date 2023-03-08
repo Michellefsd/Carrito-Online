@@ -47,7 +47,7 @@ function actualizarProd() {
 
 vaciarCarritoBtn.addEventListener('click', () => {
     articulosCarrito = [];
-    limpiarHTML();
+    limpiarHTML(carritoDeCompras);
     actualizarProd();
     sincronizarStorage();
 })
@@ -61,33 +61,6 @@ function agregarCurso(e) {
         actualizarProd();
     }
 }
-
-
-// ////// JAvascript de numero flotante   ///////
-
-// function contadorMasProd() {
-//     if(absoluto.appendChild(contador)) {
-//         crearContador()
-//     }
-//     varios = contador.textContent;
-//     contador.textContent = ++varios;
-//     if(varios === 1) {
-//         contador.classList.add('contador');
-//         }
-//     }
-//     function crearContador(){
-//             contador.classList.add('relative');
-//             absoluto.appendChild(contador);
-//         }
-
-//                 function contadorMenosProd() {
-//                         varios = contador.textContent;
-//                         contador.textContent = --varios;
-//     if(varios === 0) {
-//             contador.remove()
-//         }
-//     }
-   
 
 function eliminarCurso(e){
     if(e.target.classList.contains('borrar-curso')) {
@@ -144,7 +117,7 @@ function leerDatosCurso(curso){
 
 function carritoHTML(){
 
-    limpiarHTML();
+    limpiarHTML(carritoDeCompras);
     articulosCarrito.forEach( curso => {
         const row = document.createElement('tr');
         const { imagen, titulo, precio, cantidad }  = curso;
@@ -169,9 +142,9 @@ function carritoHTML(){
 function sincronizarStorage() {
     localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
 }
-function limpiarHTML() {
-    while(carritoDeCompras.firstChild) {
-        carritoDeCompras.removeChild(carritoDeCompras.firstChild)
+function limpiarHTML(espacio) {
+    while(espacio.firstChild) {
+        espacio.removeChild(espacio.firstChild)
     }
 }
 
@@ -243,20 +216,20 @@ function mostrarCurso(e) {
     for(curso of myCourses) {
         if(curso.categoria === datosBusqueda.categoria) {
             const resultado = myCourses.filter(filtrarCategoria);
-            
+            const {imagen, titulo, profesor, id} = curso;
             agregarCursoEspecifico();
             function agregarCursoEspecifico(){                
                 let newCard = `
                     <div class="card">
-                        <img id="imagen-curso" src=${curso.imagen} class="imagen-curso u-full-width">
+                        <img id="imagen-curso" src=${imagen} class="imagen-curso u-full-width">
                         <div class="info-card">
-                            <h4 id="titulo-curso">${curso.titulo}</h4>
-                            <p id="profesor-curso">${curso.profesor}</p>
+                            <h4 id="titulo-curso">${titulo}</h4>
+                            <p id="profesor-curso">${profesor}</p>
                             <img src="img/estrellas.png">
                             <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
-                            <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${curso.id} >Agregar Al Carrito</a>
+                            <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${id} >Agregar Al Carrito</a>
                         </div>
-                    </div> <!--.card-->
+                    </div> 
                      `;
                 
                 let htmlCard = parser.parseFromString(newCard, 'text/html');
@@ -269,7 +242,7 @@ function mostrarCurso(e) {
 
 // buscador textual
 
-const buscadorTextual = document.querySelector('#submit-buscador');
+const buscadorTextual = document.querySelector('#submit-buscador')
 const botonBuscador = document.querySelector('.submit-buscador');
 
 botonBuscador.addEventListener('click', buscarCurso);
@@ -278,8 +251,11 @@ function buscarCurso() {
     const requirement = buscadorTextual.value.toLowerCase();
     for(let curso of myCourses) {
         const titulo = curso.titulo.toLowerCase();
+        // const profesor = curso.profesor.toLowerCase();
         if(titulo.includes(requirement)){
             console.log(titulo)
+            limpiarHTML(seccion);
+            
         }
     }
     }
