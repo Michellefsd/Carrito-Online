@@ -227,7 +227,7 @@ function mostrarCurso(e) {
                             <p id="profesor-curso">${profesor}</p>
                             <img src="img/estrellas.png">
                             <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
-                            <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${id} >Agregar Al Carrito</a>
+                            <a href="#" class="u-semi-full-width button-primary button input agregar-carrito" data-id=${id} >Agregar Al Carrito</a>
                         </div>
                     </div> 
                      `;
