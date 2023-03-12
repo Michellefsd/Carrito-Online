@@ -151,10 +151,9 @@ function limpiarHTML(espacio) {
 ///////////////////////////////////////////////////////////////////
 
 
+///// generar buscador//
 
-// generar buscador//
-
-
+// Buscador por categorias
 
 const buscador = document.querySelector('#buscador');
 
@@ -204,8 +203,8 @@ function filtrarCategoria(curso) {
 let parser = new DOMParser();
 
 function mostrarCurso(e) {
-    const cursosEspecificos = document.querySelector('#curso-por-categoria');
-    cursosEspecificos.innerHTML = `
+    limpiarHTML(seccion)
+    seccion.innerHTML = `
     <h2 class="centrar-texto">${e.target.value}</h2>
     <div id="aqui" class="grid3"></div>
     `
@@ -240,7 +239,8 @@ function mostrarCurso(e) {
     }
 }
 
-// buscador textual
+
+// buscador textual por Lupa
 
 const buscadorTextual = document.querySelector('#submit-buscador')
 const botonBuscador = document.querySelector('.submit-buscador');
@@ -249,13 +249,40 @@ botonBuscador.addEventListener('click', buscarCurso);
 
 function buscarCurso() {
     const requirement = buscadorTextual.value.toLowerCase();
+    limpiarHTML(seccion);
+    agregarDivNewCard();
+    function agregarDivNewCard() {
+        seccion.innerHTML =  `
+        <h2 class="centrar-texto">Los Resultados de su Búsqueda</h2>
+        <div class="grid3" id="lugar-lupa"></div>
+        `;
     for(let curso of myCourses) {
         const titulo = curso.titulo.toLowerCase();
-        // const profesor = curso.profesor.toLowerCase();
-        if(titulo.includes(requirement)){
-            console.log(titulo)
-            limpiarHTML(seccion);
+        const profesor = curso.profesor.toLowerCase();
+        if(titulo.includes(requirement) || profesor.includes(requirement)){
+            const {imagen, titulo, profesor, id} = curso;
+            console.log(titulo);
+            const divLupa = document.querySelector("#lugar-lupa")
+            let newCard =  `
+                <div class="card">
+                    <img id="imagen-curso" src=${imagen} class="imagen-curso u-full-width">
+                    <div class="info-card">
+                        <h4 id="titulo-curso">${titulo}</h4>
+                        <p id="profesor-curso">${profesor}</p>
+                        <img src="img/estrellas.png">
+                        <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
+                        <a href="#" class="u-semi-full-width button-primary button input agregar-carrito" data-id=${id} >Agregar Al Carrito</a>
+                    </div>
+                </div>
+                <hr>
+            `  ;
             
+            let htmlCard = parser.parseFromString(newCard, 'text/html');
+            console.log(htmlCard);
+            // newCard.appendChild(buscadosPorLupa);
+            divLupa.appendChild(htmlCard.body.firstChild);
         }
+        
     }
     }
+}

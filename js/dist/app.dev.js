@@ -148,7 +148,8 @@ function limpiarHTML(espacio) {
     espacio.removeChild(espacio.firstChild);
   }
 } ///////////////////////////////////////////////////////////////////
-// generar buscador//
+///// generar buscador//
+// Buscador por categorias
 
 
 var buscador = document.querySelector('#buscador');
@@ -216,8 +217,8 @@ function filtrarCategoria(curso) {
 var parser = new DOMParser();
 
 function mostrarCurso(e) {
-  var cursosEspecificos = document.querySelector('#curso-por-categoria');
-  cursosEspecificos.innerHTML = "\n    <h2 class=\"centrar-texto\">".concat(e.target.value, "</h2>\n    <div id=\"aqui\" class=\"grid3\"></div>\n    ");
+  limpiarHTML(seccion);
+  seccion.innerHTML = "\n    <h2 class=\"centrar-texto\">".concat(e.target.value, "</h2>\n    <div id=\"aqui\" class=\"grid3\"></div>\n    ");
   var lugar = document.querySelector('#aqui'); //agrega curso generado x seleccion de categoria
 
   lugar.addEventListener('click', agregarCursoEspecifico);
@@ -263,7 +264,7 @@ function mostrarCurso(e) {
       }
     }
   }
-} // buscador textual
+} // buscador textual por Lupa
 
 
 var buscadorTextual = document.querySelector('#submit-buscador');
@@ -272,33 +273,49 @@ botonBuscador.addEventListener('click', buscarCurso);
 
 function buscarCurso() {
   var requirement = buscadorTextual.value.toLowerCase();
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
+  limpiarHTML(seccion);
+  agregarDivNewCard();
 
-  try {
-    for (var _iterator3 = myCourses[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var _curso2 = _step3.value;
+  function agregarDivNewCard() {
+    seccion.innerHTML = "\n        <h2 class=\"centrar-texto\">Los Resultados de su B\xFAsqueda</h2>\n        <div class=\"grid3\" id=\"lugar-lupa\"></div>\n        ";
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
 
-      var titulo = _curso2.titulo.toLowerCase(); // const profesor = curso.profesor.toLowerCase();
-
-
-      if (titulo.includes(requirement)) {
-        console.log(titulo);
-        limpiarHTML(seccion);
-      }
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-        _iterator3["return"]();
+      for (var _iterator3 = myCourses[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var _curso2 = _step3.value;
+
+        var titulo = _curso2.titulo.toLowerCase();
+
+        var profesor = _curso2.profesor.toLowerCase();
+
+        if (titulo.includes(requirement) || profesor.includes(requirement)) {
+          var imagen = _curso2.imagen,
+              _titulo = _curso2.titulo,
+              _profesor = _curso2.profesor,
+              id = _curso2.id;
+          console.log(_titulo);
+          var divLupa = document.querySelector("#lugar-lupa");
+          var newCard = "\n                <div class=\"card\">\n                    <img id=\"imagen-curso\" src=".concat(imagen, " class=\"imagen-curso u-full-width\">\n                    <div class=\"info-card\">\n                        <h4 id=\"titulo-curso\">").concat(_titulo, "</h4>\n                        <p id=\"profesor-curso\">").concat(_profesor, "</p>\n                        <img src=\"img/estrellas.png\">\n                        <p class=\"precio\">$800  <span class=\"u-pull-right \">$400</span></p>\n                        <a href=\"#\" class=\"u-semi-full-width button-primary button input agregar-carrito\" data-id=").concat(id, " >Agregar Al Carrito</a>\n                    </div>\n                </div>\n                <hr>\n            ");
+          var htmlCard = parser.parseFromString(newCard, 'text/html');
+          console.log(htmlCard); // newCard.appendChild(buscadosPorLupa);
+
+          divLupa.appendChild(htmlCard.body.firstChild);
+        }
       }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
     } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+          _iterator3["return"]();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
       }
     }
   }
