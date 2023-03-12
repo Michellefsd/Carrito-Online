@@ -127,6 +127,7 @@ function leerDatosCurso(curso) {
     var cursos = articulosCarrito.map(function (curso) {
       if (curso.id === infoCurso.id) {
         curso.cantidad++;
+        curso.precio += curso.precio;
         return curso; // retorna objeto actualizado
       } else {
         return curso; // retorna objetos no duplicadsos
@@ -146,9 +147,8 @@ function carritoHTML() {
     var row = document.createElement('tr');
     var imagen = curso.imagen,
         titulo = curso.titulo,
-        precio = curso.precio,
         cantidad = curso.cantidad;
-    row.innerHTML = "\n\n        <td>\n            <img src=\"".concat(curso.imagen, "\" width=\"100%\"></td>\n        <td>").concat(curso.titulo, "</td>\n        <td>").concat(curso.precio, "</td>\n        <td>").concat(curso.cantidad, "</td>\n        <td>\n        <a href=\"#\" class=\"borrar-curso\" data-id=\"").concat(curso.id, "\"> X </a>\n        </td>\n        ");
+    row.innerHTML = "\n\n        <td>\n            <img src=\"".concat(curso.imagen, "\" width=\"100%\"></td>\n        <td>").concat(curso.titulo, "</td>\n    \n        <td>").concat(curso.cantidad, "</td>\n        <td>\n        <a href=\"#\" class=\"borrar-curso\" data-id=\"").concat(curso.id, "\"> X </a>\n        </td>\n        ");
     carritoDeCompras.appendChild(row);
   }); // agregar el carrito de Compras al LocalStorage
 

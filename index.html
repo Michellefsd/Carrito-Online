@@ -30,8 +30,7 @@
                                             <tr>
                                                 <th>Imagen</th>
                                                 <th>Nombre</th>
-                                                <th>Precio</th>
-                                                <th>Cantidad</th>
+                                                <th>Cant</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -41,7 +40,7 @@
                                     </table>
                                     <div class="centrar-texto" id="total-precio">
                                     </div>
-                                    <button id="total-btn" class="button-primary button u-full-width" >Adquirir</button>
+                                    <button id="total-btn" class="button-primary button" >Adquirir</button>
                                     <a href="#" id="vaciar-carrito" class="vaciar-carrito button u-full-width">Vaciar Carrito</a>
                                 </div>
                             </li>
@@ -106,8 +105,8 @@
                             <h4 id="titulo-curso">{{curso.titulo}}</h4>
                             <p id="profesor-curso">{{curso.profesor}}</p>
                             <img src="img/estrellas.png">
-                            <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
-                            <a href="#" class="button-primary button input agregar-carrito"v-bind:data-id="curso.id">Agregar Al Carrito</a>
+                            <p class="precio">$800 <span class="u-pull-right ">$ 400</span></p>
+                            <a href="#" class="u-semi-full-width button-primary button input agregar-carrito"v-bind:data-id="curso.id">Agregar Al Carrito</a>
                         </div>
                     </div> <!--.card-->
                 </div>
