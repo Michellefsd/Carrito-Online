@@ -13,7 +13,8 @@ var carritoDeCompras = document.querySelector('#lista-carrito tbody');
 var vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 var listaCursos = document.querySelector('#lista-cursos');
 var articulosCarrito = [];
-var seccion = document.querySelector('#curso-por-categoria'); //      variables del numero flotante
+var seccion = document.querySelector('#curso-por-categoria');
+var precioInicial = 0; //      variables del numero flotante
 
 var absoluto = document.querySelector('.absolute');
 var contador = document.createElement('p'); //  EVENTOS
@@ -51,6 +52,21 @@ function actualizarProd() {
 
   if (total === 0) {
     contador.remove();
+  }
+
+  totalBill(total);
+
+  function totalBill(total) {
+    var totalPrecioDiv = document.querySelector("#total-precio");
+    limpiarHTML(totalPrecioDiv);
+    var totalPrecio = document.createElement("span");
+    totalPrecio.textContent = "$ ".concat(total * 400);
+    console.log(totalPrecio);
+    totalPrecioDiv.appendChild(totalPrecio);
+
+    if (total === 0) {
+      limpiarHTML(totalPrecioDiv);
+    }
   }
 }
 
@@ -132,7 +148,7 @@ function carritoHTML() {
         titulo = curso.titulo,
         precio = curso.precio,
         cantidad = curso.cantidad;
-    row.innerHTML = "\n\n        <td>\n            <img src=\"".concat(curso.imagen, "\" width=\"100%\"></td>\n        <td>").concat(curso.titulo, "</td>\n        <td>").concat(curso.precio, "</td>\n        <td>").concat(curso.cantidad, "</td>\n        <td>\n        <a href=\"#\" class=\"borrar-curso\" data-id=\"").concat(curso.id, "\"> X </a>\n        </td>\n\n        ");
+    row.innerHTML = "\n\n        <td>\n            <img src=\"".concat(curso.imagen, "\" width=\"100%\"></td>\n        <td>").concat(curso.titulo, "</td>\n        <td>").concat(curso.precio, "</td>\n        <td>").concat(curso.cantidad, "</td>\n        <td>\n        <a href=\"#\" class=\"borrar-curso\" data-id=\"").concat(curso.id, "\"> X </a>\n        </td>\n        ");
     carritoDeCompras.appendChild(row);
   }); // agregar el carrito de Compras al LocalStorage
 

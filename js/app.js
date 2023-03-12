@@ -4,6 +4,7 @@ const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
 const seccion = document.querySelector('#curso-por-categoria');
+let precioInicial = 0;
 
 //      variables del numero flotante
 const absoluto = document.querySelector('.absolute');
@@ -42,6 +43,19 @@ function actualizarProd() {
     contador.textContent = total;
     if(total === 0) {
     contador.remove()
+    }
+
+    totalBill(total);
+    function totalBill(total) {
+        const totalPrecioDiv = document.querySelector("#total-precio");
+        limpiarHTML(totalPrecioDiv)
+        const totalPrecio = document.createElement("span");
+        totalPrecio.textContent =`$ ${total * 400}`;
+        console.log(totalPrecio)
+        totalPrecioDiv.appendChild(totalPrecio);
+        if(total === 0) {
+            limpiarHTML(totalPrecioDiv)
+        }
     }
 }
 
@@ -131,7 +145,6 @@ function carritoHTML(){
         <td>
         <a href="#" class="borrar-curso" data-id="${curso.id}"> X </a>
         </td>
-
         `;
         carritoDeCompras.appendChild(row);
     });
