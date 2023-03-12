@@ -89,7 +89,7 @@ ul {
 }
 
 #hero {
-    background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .7)), url(../img/hero.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(../img/hero.jpg);
     background-position: right center;
     height: 350px;
     background-size: cover;
