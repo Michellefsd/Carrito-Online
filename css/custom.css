@@ -243,7 +243,14 @@ display: block;
 margin-bottom: 10px;
 text-decoration: none;
 }
-
+.cont-abs {
+    position: relative;
+}
+.cont-abs .btn-relative {
+    position: absolute !important;
+    vertical-align: baseline;
+    top: 14.5rem;
+}
 @media (min-width: 600px) {
     .grid3 {
         display: grid;
