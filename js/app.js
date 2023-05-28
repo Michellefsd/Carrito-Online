@@ -4,6 +4,7 @@ const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaCursos = document.querySelector('#lista-cursos');
 let articulosCarrito = [];
 const seccion = document.querySelector('#curso-por-categoria');
+let precioInicial = 0;
 
 //      variables del numero flotante
 const absoluto = document.querySelector('.absolute');
@@ -43,11 +44,24 @@ function actualizarProd() {
     if(total === 0) {
     contador.remove()
     }
+
+    totalBill(total);
+    function totalBill(total) {
+        const totalPrecioDiv = document.querySelector("#total-precio");
+        limpiarHTML(totalPrecioDiv)
+        const totalPrecio = document.createElement("span");
+        totalPrecio.textContent =`$ ${total * 400}`;
+        console.log(totalPrecio)
+        totalPrecioDiv.appendChild(totalPrecio);
+        if(total === 0) {
+            limpiarHTML(totalPrecioDiv)
+        }
+    }
 }
 
 vaciarCarritoBtn.addEventListener('click', () => {
     articulosCarrito = [];
-    limpiarHTML();
+    limpiarHTML(carritoDeCompras);
     actualizarProd();
     sincronizarStorage();
 })
@@ -61,33 +75,6 @@ function agregarCurso(e) {
         actualizarProd();
     }
 }
-
-
-// ////// JAvascript de numero flotante   ///////
-
-// function contadorMasProd() {
-//     if(absoluto.appendChild(contador)) {
-//         crearContador()
-//     }
-//     varios = contador.textContent;
-//     contador.textContent = ++varios;
-//     if(varios === 1) {
-//         contador.classList.add('contador');
-//         }
-//     }
-//     function crearContador(){
-//             contador.classList.add('relative');
-//             absoluto.appendChild(contador);
-//         }
-
-//                 function contadorMenosProd() {
-//                         varios = contador.textContent;
-//                         contador.textContent = --varios;
-//     if(varios === 0) {
-//             contador.remove()
-//         }
-//     }
-   
 
 function eliminarCurso(e){
     if(e.target.classList.contains('borrar-curso')) {
@@ -127,6 +114,7 @@ function leerDatosCurso(curso){
         const cursos = articulosCarrito.map( curso => {
             if( curso.id === infoCurso.id) {
                 curso.cantidad++;
+                curso.precio += curso.precio
                 return curso; // retorna objeto actualizado
             } else {
                 return curso; // retorna objetos no duplicadsos
@@ -144,21 +132,20 @@ function leerDatosCurso(curso){
 
 function carritoHTML(){
 
-    limpiarHTML();
+    limpiarHTML(carritoDeCompras);
     articulosCarrito.forEach( curso => {
         const row = document.createElement('tr');
-        const { imagen, titulo, precio, cantidad }  = curso;
+        const { imagen, titulo, cantidad }  = curso;
         row.innerHTML = `
 
         <td>
             <img src="${curso.imagen}" width="100%"></td>
         <td>${curso.titulo}</td>
-        <td>${curso.precio}</td>
+    
         <td>${curso.cantidad}</td>
         <td>
         <a href="#" class="borrar-curso" data-id="${curso.id}"> X </a>
         </td>
-
         `;
         carritoDeCompras.appendChild(row);
     });
@@ -169,19 +156,18 @@ function carritoHTML(){
 function sincronizarStorage() {
     localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
 }
-function limpiarHTML() {
-    while(carritoDeCompras.firstChild) {
-        carritoDeCompras.removeChild(carritoDeCompras.firstChild)
+function limpiarHTML(espacio) {
+    while(espacio.firstChild) {
+        espacio.removeChild(espacio.firstChild)
     }
 }
 
 ///////////////////////////////////////////////////////////////////
 
 
+///// generar buscador//
 
-// generar buscador//
-
-
+// Buscador por categorias
 
 const buscador = document.querySelector('#buscador');
 
@@ -231,8 +217,8 @@ function filtrarCategoria(curso) {
 let parser = new DOMParser();
 
 function mostrarCurso(e) {
-    const cursosEspecificos = document.querySelector('#curso-por-categoria');
-    cursosEspecificos.innerHTML = `
+    limpiarHTML(seccion)
+    seccion.innerHTML = `
     <h2 class="centrar-texto">${e.target.value}</h2>
     <div id="aqui" class="grid3"></div>
     `
@@ -243,20 +229,20 @@ function mostrarCurso(e) {
     for(curso of myCourses) {
         if(curso.categoria === datosBusqueda.categoria) {
             const resultado = myCourses.filter(filtrarCategoria);
-            
+            const {imagen, titulo, profesor, id} = curso;
             agregarCursoEspecifico();
             function agregarCursoEspecifico(){                
                 let newCard = `
-                    <div class="card">
-                        <img id="imagen-curso" src=${curso.imagen} class="imagen-curso u-full-width">
+                    <div class="card cont-abs">
+                        <img id="imagen-curso" src=${imagen} class="imagen-curso u-full-width">
                         <div class="info-card">
-                            <h4 id="titulo-curso">${curso.titulo}</h4>
-                            <p id="profesor-curso">${curso.profesor}</p>
+                            <h4 id="titulo-curso">${titulo}</h4>
+                            <p id="profesor-curso">${profesor}</p>
                             <img src="img/estrellas.png">
                             <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
-                            <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id=${curso.id} >Agregar Al Carrito</a>
+                            <a href="#" class="u-semi-full-width btn-relative button-primary button input agregar-carrito" data-id=${id} >Agregar Al Carrito</a>
                         </div>
-                    </div> <!--.card-->
+                    </div> 
                      `;
                 
                 let htmlCard = parser.parseFromString(newCard, 'text/html');
@@ -267,19 +253,50 @@ function mostrarCurso(e) {
     }
 }
 
-// buscador textual
 
-const buscadorTextual = document.querySelector('#submit-buscador');
+// buscador textual por Lupa
+
+const buscadorTextual = document.querySelector('#submit-buscador')
 const botonBuscador = document.querySelector('.submit-buscador');
 
 botonBuscador.addEventListener('click', buscarCurso);
 
 function buscarCurso() {
     const requirement = buscadorTextual.value.toLowerCase();
+    limpiarHTML(seccion);
+    agregarDivNewCard();
+    function agregarDivNewCard() {
+        seccion.innerHTML =  `
+        <h2 class="centrar-texto">Los Resultados de su Búsqueda</h2>
+        <div class="grid3" id="lugar-lupa"></div>
+        `;
     for(let curso of myCourses) {
         const titulo = curso.titulo.toLowerCase();
-        if(titulo.includes(requirement)){
-            console.log(titulo)
+        const profesor = curso.profesor.toLowerCase();
+        if(titulo.includes(requirement) || profesor.includes(requirement)){
+            const {imagen, titulo, profesor, id} = curso;
+            console.log(titulo);
+            const divLupa = document.querySelector("#lugar-lupa")
+            let newCard =  `
+                <div class="card cont-abs">
+                    <img id="imagen-curso" src=${imagen} class="imagen-curso u-full-width">
+                    <div class="info-card">
+                        <h4 id="titulo-curso">${titulo}</h4>
+                        <p id="profesor-curso">${profesor}</p>
+                        <img src="img/estrellas.png">
+                        <p class="precio">$800  <span class="u-pull-right ">$400</span></p>
+                        <a href="#" class="u-semi-full-width btn-relative button-primary button input agregar-carrito" data-id=${id} >Agregar Al Carrito</a>
+                    </div>
+                </div>
+                <hr>
+            `  ;
+            
+            let htmlCard = parser.parseFromString(newCard, 'text/html');
+            console.log(htmlCard);
+            // newCard.appendChild(buscadosPorLupa);
+            divLupa.appendChild(htmlCard.body.firstChild);
         }
+        
     }
     }
+}

@@ -89,9 +89,11 @@ ul {
 }
 
 #hero {
-    background-image:url(../img/hero.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(../img/hero.webp);
+    background-position: right center;
     height: 350px;
     background-size: cover;
+   
 }
 #encabezado {
     margin: 30px 0;
@@ -149,13 +151,12 @@ ul {
     border:none;
 }
 
-
 .barra {
     padding: 20px 0;
-    background: #741d51; /* Old browsers */
-    background: -moz-linear-gradient(left, #741d51 0%, #e44e52 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #741d51 0%,#e44e52 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #741d51 0%,#e44e52 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: rgb(105, 19, 36); /* Old browsers */
+    /*background: -moz-linear-gradient(left, #f82157 15%, #1a4e9c 100%); /* FF3.6-15 */
+    /*background: -webkit-linear-gradient(left, #f82157 15%,#1a4e9c 100%); /* Chrome10-25,Safari5.1-6 */
+    /*background: linear-gradient(to right, #f82157 15%,#1a4e9c 100%); W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#741d51', endColorstr='#e44e52',GradientType=1 ); /* IE6-9 */
 }
 
@@ -196,15 +197,20 @@ ul {
 .card {
     text-align: center;
     border: 1px solid #e1e1e1;
+    border-radius: 2%;
     background: white;
+    margin-bottom: 2rem;
 }
 @media (min-width: 550px) {
     .card {
         text-align: left;
+        margin-bottom: 0;
     }
 }
 .info-card  {
     padding: 10px 20px;
+    position: relative;
+    padding-bottom: 7rem;
 }
 
 .info-card p, 
@@ -216,12 +222,17 @@ ul {
     font-size: 18px;
     margin-top: 10px;
 }
-.info-card .precio span {
+span {
     font-weight: 700;
     font-size: 22px;
 }
-
-
+.agregar-carrito {
+    position: absolute;
+    margin-left:auto;
+    margin-right:auto;
+    left:0;
+    right:0;
+}
 .footer {
     margin-top: 40px;
     border-top:1px solid #aaa;;
@@ -232,7 +243,14 @@ display: block;
 margin-bottom: 10px;
 text-decoration: none;
 }
-
+.cont-abs {
+    position: relative;
+}
+.cont-abs .btn-relative {
+    position: absolute !important;
+    vertical-align: baseline;
+    top: 14.5rem;
+}
 @media (min-width: 600px) {
     .grid3 {
         display: grid;

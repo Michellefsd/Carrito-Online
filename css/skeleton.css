@@ -172,7 +172,7 @@ input[type="reset"],
 input[type="button"] {
   display: inline-block;
   height: 38px;
-  padding: 0 30px;
+  padding: 0 20px;
   color: #555;
   text-align: center;
   font-size: 11px;
@@ -205,7 +205,7 @@ button.button-primary,
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
-  color: rgb(24, 20, 20);
+  color: rgb(255, 255, 255);
   background-color: #33C3F0;
   border-color: #33C3F0; }
 .button.button-primary:hover,
@@ -218,7 +218,7 @@ button.button-primary:focus,
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
-  color: rgb(58, 43, 43);
+  color: rgb(252, 249, 249);
   background-color: #1EAEDB;
   border-color: #1EAEDB; }
 
@@ -340,7 +340,7 @@ td:last-child {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 button,
 .button {
-  margin-bottom: 1rem; }
+  margin: 1rem; }
 input,
 textarea,
 select,
@@ -362,6 +362,9 @@ form {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .u-full-width {
   width: 100%;
+  box-sizing: border-box; }
+.u-semi-full-width {
+  width: 90%;
   box-sizing: border-box; }
 .u-max-full-width {
   max-width: 100%;
